@@ -10,9 +10,9 @@ Running on OpenShift
 
 Create an account at http://openshift.redhat.com/
 
-Create a wsgi-3.2 application
+Create a python-2.6 application
 
-    rhc-create-app -a bottle -t wsgi-3.2
+    rhc app create -a bottle -t python-2.6
 
 Add this upstream bottle repo
 
