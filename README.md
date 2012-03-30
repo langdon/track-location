@@ -1,8 +1,8 @@
-Bottle on OpenShift Express
-============================
+Bottle on OpenShift
+===================
 
 This git repository helps you get up and running quickly w/ a Bottle installation
-on OpenShift Express.
+on the Red Hat OpenShift PaaS.
 
 
 Running on OpenShift
