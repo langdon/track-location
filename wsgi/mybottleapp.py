@@ -8,4 +8,10 @@ def nameindex(name='Stranger'):
 def index():
     return '<strong>Hello World!</strong>'
 
+# This must be added in order to do correct path lookups for the views
+import os
+from bottle import TEMPLATE_PATH
+TEMPLATE_PATH.append(os.path.join(os.environ['OPENSHIFT_GEAR_DIR'], 
+    'runtime/repo/wsgi/views/')) 
+
 application=default_app()
