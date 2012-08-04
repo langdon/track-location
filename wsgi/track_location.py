@@ -25,7 +25,7 @@ def track_location():
     print "slash: %s" % os.path.isfile('/data/config.conf')
     print "nodata: %s" % os.path.isfile('/config.conf')
     print "noslashnodata: %s" % os.path.isfile('config.conf')
-
+    print "upone: %s" % os.path.isfile('../data/config.conf')
 
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
