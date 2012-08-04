@@ -1,16 +1,35 @@
-import urllib
-import json
-from bottle import route, run, HTTPError, debug, template, static_file
+import psycopg2
+import sys
+from bottle import get, post, route, run, HTTPError, debug, template, static_file
 
-_LOCAL_DATA_URL = 'http://localhost:8090/Data/{0}'
-_LOCAL_STATION_DATA_URL = 'http://localhost:8090/stations'
-_CODE_FULL_PATH = '/home/lwhite/Documents/aptana-python-wkspc/mbta-wake-me-up-32/src'
+@post('/track-location/')
+def track_location():
+    #collect the location and time from the user
+    geoX = request.forms.get('geoX')
+    geoY = request.forms.get('geoY')
+    time = request.forms.get('time')
 
-@route('/')
-@route('/index')
-@route('/index.html')
-@route('/index.htm')
-def index():
-    return template('index')
+    #save it in the db
+
+    con = None
+
+    try:
+        con = psycopg2.connect(database='testdb', user='janbodnar') 
+        cur = con.cursor()
+        cur.execute('SELECT version()')          
+        ver = cur.fetchone()
+        print ver    
+        
     
+    except psycopg2.DatabaseError, e:
+        print 'Error %s' % e    
+        sys.exit(1)
+        
+        
+    finally:
+        
+        if con:
+            con.close()
+        
+        
     
