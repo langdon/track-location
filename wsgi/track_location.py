@@ -15,6 +15,7 @@ def index():
 @route('/track-location/')
 #@post('/track-location/')
 def track_location():
+    print "hi!"
     #collect the location and time from the user
     #geoX = request.forms.get('geoX')
     #geoY = request.forms.get('geoY')
