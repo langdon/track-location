@@ -22,7 +22,38 @@ def track_location():
 
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
-    config.read(['site.cfg', os.path.expanduser('~/.myapp.cfg')])
+    
+    #Define our connection string
+    conn_string = "host='" + config.get("Postgres Creds", "host") + "' "
+    conn_string += "port='" + config.get("Postgres Creds", "port") + "' "
+    conn_string += "user='" + config.get("Postgres Creds", "user") + "' "
+    conn_string += "password='" + config.get("Postgres Creds", "pass") + "' "
+    conn_string += "dbname='" + config.get("Postgres Creds", "db_name") + "' "
+ 
+    con = None
+    try:
+    	# print the connection string we will use to connect
+    	print "Connecting to database\n	->%s" % (conn_string)
+     
+    	# get a connection, if a connect cannot be made an exception will be raised here
+    	con = psycopg2.connect(conn_string)
+     
+        cur = con.cursor()
+        print "Connected!\n"
+
+        cur.execute('SELECT version()')          
+        ver = cur.fetchone()
+        print ver    
+
+
+    except psycopg2.DatabaseError, e:
+        print 'Error %s' % e    
+        sys.exit(1)
+                
+    finally:        
+        if con:
+            con.close()
+        
 
     out = str(config.sections())
     out += str(config.get("Postgres Creds", "user"))
