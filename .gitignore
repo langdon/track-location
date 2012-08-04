@@ -26,3 +26,8 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#custom
+postgres-creds
+ssh-config
+.c9revisions/
