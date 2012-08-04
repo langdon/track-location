@@ -4,7 +4,7 @@ import psycopg2
 from bottle import get, post, route, run, HTTPError, debug, template, static_file, default_app
 
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
-CONFIG_FILE = DATA_ROOT + "/config.conf'
+CONFIG_FILE = DATA_ROOT + '/config.conf'
 
 @route('/name/<name>')
 def nameindex(name='Stranger'):
@@ -14,27 +14,15 @@ def nameindex(name='Stranger'):
 def index():
     return '<strong>Hello World!</strong>'
 
-@route('/track-location/')
-#@post('/track-location/')
-def track_location():
-    print "hi!"
-    #collect the location and time from the user
-    #geoX = request.forms.get('geoX')
-    #geoY = request.forms.get('geoY')
-    #time = request.forms.get('time')
-
-    print "noslash: %s" % os.path.isfile('data/config.conf')
-    print "slash: %s" % os.path.isfile('/data/config.conf')
-    print "nodata: %s" % os.path.isfile('/config.conf')
-    print "noslashnodata: %s" % os.path.isfile('config.conf')
-    print "upone: %s" % os.path.isfile('../data/config.conf')
-    print "uptwo: %s" % os.path.isfile('../../data/config.conf')
-    print "usingVar: %s" % os.path.isfile(DATA_ROOT + '/config.conf')
-    print "usingVaNoslashr: %s" % os.path.isfile(CONFIG_FILE)
-
-
+def get_config():
     config = ConfigParser.ConfigParser()
     config.read(CONFIG_FILE)
+    return config    
+    
+def get_connection():
+    #get a connection object
+    
+    config = get_config()
     
     #Define our connection string
     conn_string = "host='" + config.get("Postgres Creds", "host") + "' "
@@ -45,20 +33,12 @@ def track_location():
  
     con = None
     try:
-    	# print the connection string we will use to connect
+        # print the connection string we will use to connect
     	print "Connecting to database\n	->%s" % (conn_string)
      
     	# get a connection, if a connect cannot be made an exception will be raised here
     	con = psycopg2.connect(conn_string)
      
-        cur = con.cursor()
-        print "Connected!\n"
-
-        cur.execute('SELECT version()')          
-        ver = cur.fetchone()
-        print ver    
-
-
     except psycopg2.DatabaseError, e:
         print 'Error %s' % e    
         sys.exit(1)
@@ -66,8 +46,29 @@ def track_location():
     finally:        
         if con:
             con.close()
-        
 
+def test_db_connection():
+    con = get_connection()
+    cur = con.cursor()
+    print "Connected!\n"
+
+    cur.execute('SELECT version()')          
+    ver = cur.fetchone()
+    print ver    
+
+
+@route('/track-location/')
+#@post('/track-location/')
+def track_location():
+    print "hi!"
+    #collect the location and time from the user
+    geoX = request.forms.get('geoX')
+    geoY = request.forms.get('geoY')
+    time = request.forms.get('time')
+
+    test_db_connection()
+    
+    config = get_config()
     out = str(config.sections())
     out += str(config.get("Postgres Creds", "user"))
     return out
