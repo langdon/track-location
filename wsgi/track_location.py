@@ -12,13 +12,13 @@ def nameindex(name='Stranger'):
 def index():
     return '<strong>Hello World!</strong>'
 
-
-@post('/track-location/')
+@route('/track-location/')
+#@post('/track-location/')
 def track_location():
     #collect the location and time from the user
-    geoX = request.forms.get('geoX')
-    geoY = request.forms.get('geoY')
-    time = request.forms.get('time')
+    #geoX = request.forms.get('geoX')
+    #geoY = request.forms.get('geoY')
+    #time = request.forms.get('time')
 
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
