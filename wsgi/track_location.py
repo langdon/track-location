@@ -3,6 +3,7 @@ import ConfigParser
 import psycopg2
 from bottle import get, post, route, run, HTTPError, debug, template, static_file, default_app
 
+DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 
 @route('/name/<name>')
 def nameindex(name='Stranger'):
@@ -21,21 +22,15 @@ def track_location():
     #geoY = request.forms.get('geoY')
     #time = request.forms.get('time')
 
-
-#    for dirname, dirnames, filenames in os.walk('.'):
-#        for subdirname in dirnames:
-#            print os.path.join(dirname, subdirname)
-#        for filename in filenames:
-#            print os.path.join(dirname, filename)
-
-
-
     print "noslash: %s" % os.path.isfile('data/config.conf')
     print "slash: %s" % os.path.isfile('/data/config.conf')
     print "nodata: %s" % os.path.isfile('/config.conf')
     print "noslashnodata: %s" % os.path.isfile('config.conf')
     print "upone: %s" % os.path.isfile('../data/config.conf')
     print "uptwo: %s" % os.path.isfile('../../data/config.conf')
+    print "usingVar: %s" % os.path.isfile('DATA_ROOT/config.conf')
+    print "usingVaNoslashr: %s" % os.path.isfile('DATA_ROOTconfig.conf')
+
 
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
