@@ -28,6 +28,8 @@ def track_location():
         for filename in filenames:
             print os.path.join(dirname, filename)
 
+
+
     print "noslash: %s" % os.path.isfile('data/config.conf')
     print "slash: %s" % os.path.isfile('/data/config.conf')
     print "nodata: %s" % os.path.isfile('/config.conf')
