@@ -51,11 +51,11 @@ def test_db_connection():
     con = get_connection()
     cur = con.cursor()
     print "Connected!\n"
-
+    
     cur.execute('SELECT version()')          
-    ver = cur.fetchone()
     print ver    
-
+    
+    ver = cur.fetchone()
 
 #@route('/track-location/')
 @post('/track-location/')
@@ -65,7 +65,7 @@ def track_location():
         geoX = request.forms.get('geoX')
         geoY = request.forms.get('geoY')
         time = request.forms.get('time')
-    except:
+    except NameError:
         #ignore for now
         
     test_db_connection()
@@ -81,14 +81,14 @@ def track_location():
 def track_location():
     #print out the locations found        
     test_db_connection()
-
+    
     con = get_connection()
     cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
     out = ""
-	for row in cursor:
-		out += "%s    %s<br />\n" % row
+    for row in cursor:
+    	out += "%s    %s<br />\n" % row
     return out
 
 # This must be added in order to do correct path lookups for the views
