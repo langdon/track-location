@@ -10,4 +10,4 @@ try:
 except IOError:
     pass
 
-from mybottleapp import application
+from track_location import application
