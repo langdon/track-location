@@ -4,6 +4,7 @@ import psycopg2
 from bottle import get, post, route, run, HTTPError, debug, template, static_file, default_app
 
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
+CONFIG_FILE = DATA_ROOT + "/config.conf'
 
 @route('/name/<name>')
 def nameindex(name='Stranger'):
@@ -29,11 +30,11 @@ def track_location():
     print "upone: %s" % os.path.isfile('../data/config.conf')
     print "uptwo: %s" % os.path.isfile('../../data/config.conf')
     print "usingVar: %s" % os.path.isfile(DATA_ROOT + '/config.conf')
-    print "usingVaNoslashr: %s" % os.path.isfile('DATA_ROOTconfig.conf')
+    print "usingVaNoslashr: %s" % os.path.isfile(CONFIG_FILE)
 
 
     config = ConfigParser.ConfigParser()
-    config.read('config.conf')
+    config.read(CONFIG_FILE)
     
     #Define our connection string
     conn_string = "host='" + config.get("Postgres Creds", "host") + "' "
