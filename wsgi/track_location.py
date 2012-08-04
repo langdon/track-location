@@ -61,11 +61,14 @@ def test_db_connection():
 #@post('/track-location/')
 def track_location():
     print "hi!"
-    #collect the location and time from the user
-    geoX = request.forms.get('geoX')
-    geoY = request.forms.get('geoY')
-    time = request.forms.get('time')
-
+    try:
+        #collect the location and time from the user
+        geoX = request.forms.get('geoX')
+        geoY = request.forms.get('geoY')
+        time = request.forms.get('time')
+    catch:
+        #ignore for now
+        
     test_db_connection()
     
     config = get_config()
