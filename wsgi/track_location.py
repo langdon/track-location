@@ -1,7 +1,7 @@
+import sys, os
+import ConfigParser
 import psycopg2
-import sys
-from bottle import route, default_app
-from bottle import get, post, route, run, HTTPError, debug, template, static_file
+from bottle import get, post, route, run, HTTPError, debug, template, static_file, default_app
 
 
 @route('/name/<name>')
@@ -20,28 +20,14 @@ def track_location():
     geoY = request.forms.get('geoY')
     time = request.forms.get('time')
 
+    config = ConfigParser.ConfigParser()
+    config.read('config.conf')
+    config.read(['site.cfg', os.path.expanduser('~/.myapp.cfg')])
+
+    out = str(config.sections())
+    out += str(config.get("Postgres Creds", "user"))
+    return out
     #save it in the db
-
-    con = None
-
-    try:
-        con = psycopg2.connect(database='testdb', user='janbodnar') 
-        cur = con.cursor()
-        cur.execute('SELECT version()')          
-        ver = cur.fetchone()
-        print ver    
-        
-    
-    except psycopg2.DatabaseError, e:
-        print 'Error %s' % e    
-        sys.exit(1)
-        
-        
-    finally:
-        
-        if con:
-            con.close()
-        
 
 # This must be added in order to do correct path lookups for the views
 import os

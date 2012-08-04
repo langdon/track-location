@@ -31,3 +31,4 @@ pip-log.txt
 postgres-creds
 ssh-config
 .c9revisions/
+config.conf
