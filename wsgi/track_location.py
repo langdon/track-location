@@ -53,9 +53,9 @@ def test_db_connection():
         print "Connected!\n"
         
         cur.execute('SELECT version()')          
+        ver = cur.fetchone()
         print ver    
         
-        ver = cur.fetchone()
     except Exception, e:
         print "test failed: %s" % e
     finally:        
