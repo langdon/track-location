@@ -28,7 +28,7 @@ def track_location():
     print "noslashnodata: %s" % os.path.isfile('config.conf')
     print "upone: %s" % os.path.isfile('../data/config.conf')
     print "uptwo: %s" % os.path.isfile('../../data/config.conf')
-    print "usingVar: %s" % os.path.isfile('DATA_ROOT/config.conf')
+    print "usingVar: %s" % os.path.isfile(DATA_ROOT + '/config.conf')
     print "usingVaNoslashr: %s" % os.path.isfile('DATA_ROOTconfig.conf')
 
 
