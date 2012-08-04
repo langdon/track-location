@@ -57,40 +57,6 @@ def test_db_connection():
     
     ver = cur.fetchone()
 
-#@route('/track-location/')
-@post('/track-location/')
-def track_location():
-    try:
-        #collect the location and time from the user
-        geoX = request.forms.get('geoX')
-        geoY = request.forms.get('geoY')
-        time = request.forms.get('time')
-    except NameError:
-        #ignore for now
-        
-    test_db_connection()
-    
-    config = get_config()
-    out = str(config.sections())
-    out += str(config.get("Postgres Creds", "user"))
-    return out
-    #save it in the db
-
-
-@get('/track-location/')
-def track_location():
-    #print out the locations found        
-    test_db_connection()
-    
-    con = get_connection()
-    cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute('SELECT * FROM locations')
-    
-    out = ""
-    for row in cursor:
-    	out += "%s    %s<br />\n" % row
-    return out
-
 # This must be added in order to do correct path lookups for the views
 import os
 from bottle import TEMPLATE_PATH
