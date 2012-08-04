@@ -21,6 +21,13 @@ def track_location():
     #geoY = request.forms.get('geoY')
     #time = request.forms.get('time')
 
+
+    for dirname, dirnames, filenames in os.walk('.'):
+        for subdirname in dirnames:
+            print os.path.join(dirname, subdirname)
+        for filename in filenames:
+            print os.path.join(dirname, filename)
+
     print "noslash: %s" % os.path.isfile('data/config.conf')
     print "slash: %s" % os.path.isfile('/data/config.conf')
     print "nodata: %s" % os.path.isfile('/config.conf')
