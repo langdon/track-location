@@ -43,19 +43,25 @@ def get_connection():
         print 'Error %s' % e    
         sys.exit(1)
                 
+    return con
+
+def test_db_connection():
+    con = None
+    try:
+        con = get_connection()
+        cur = con.cursor()
+        print "Connected!\n"
+        
+        cur.execute('SELECT version()')          
+        print ver    
+        
+        ver = cur.fetchone()
+    except Exception, e:
+        print "test failed: %s" % e
     finally:        
         if con:
             con.close()
 
-def test_db_connection():
-    con = get_connection()
-    cur = con.cursor()
-    print "Connected!\n"
-    
-    cur.execute('SELECT version()')          
-    print ver    
-    
-    ver = cur.fetchone()
 
 #@route('/track-location/')
 @post('/track-location/')
@@ -81,15 +87,24 @@ def track_location():
 def track_location():
     #print out the locations found        
     test_db_connection()
-    
-    con = get_connection()
-    cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute('SELECT * FROM locations')
-    
-    out = ""
-    for row in cursor:
-        out += "%s    %s<br />\n" % row
-    return out
+
+    con = None
+    try:
+        con = get_connection()
+        cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute('SELECT * FROM locations')
+        
+        out = ""
+        for row in cursor:
+            out += "%s    %s<br />\n" % row
+        return out
+    except Exception, e:
+        "attempt on track-location failed: %s" % e
+
+    finally:        
+        if con:
+            con.close()
+
 
 # This must be added in order to do correct path lookups for the views
 import os
