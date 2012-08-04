@@ -21,6 +21,12 @@ def track_location():
     #geoY = request.forms.get('geoY')
     #time = request.forms.get('time')
 
+    print "noslash: %s" % os.path.isfile('data/config.conf')
+    print "slash: %s" % os.path.isfile('/data/config.conf')
+    print "nodata: %s" % os.path.isfile('/config.conf')
+    print "noslashnodata: %s" % os.path.isfile('config.conf')
+
+
     config = ConfigParser.ConfigParser()
     config.read('config.conf')
     
