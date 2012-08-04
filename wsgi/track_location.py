@@ -57,7 +57,6 @@ def test_db_connection():
     
     ver = cur.fetchone()
 
-#@route('/track-location/')
 @post('/track-location/')
 def track_location():
     try:
@@ -74,7 +73,6 @@ def track_location():
     out = str(config.sections())
     out += str(config.get("Postgres Creds", "user"))
     return out
-    #save it in the db
 
 # This must be added in order to do correct path lookups for the views
 import os
