@@ -102,38 +102,16 @@ def index():
 def track_location():
     try:
         #collect the location and time from the user
-        geoX = request.forms.geoX
-        geoY = request.forms.geoY
-        time = request.forms.time
+        #these should work per the bottlepy docs, not sure what is up
+        #geoX = request.forms.geoX
+        #geoY = request.forms.geoY
+        #time = request.forms.time
 
-        print "\n\n\n\n"
-        pprint(request)
-        print "\n\n\n\n"
-        pprint(request.forms)
-        print "\n\n\n\n"
-        print "request.HTTP_GEOX: %s" % request.get('HTTP_GEOX')
-        print "request.HTTP_GEOY: %s" % request.get('HTTP_GEOY')
-        print "request.HTTP_TIME: %s" % request.get('HTTP_TIME')
-        print "request.QUERY_STRING: %s" % request.get('QUERY_STRING')
-        
-        print "\n\n\n\n"
-        for x in request:
-            print "request row: %s, type=%s" % (x, type(x))
-        print "\n\n\n\n"
-        for x in request.POST:
-            print "request.POST row: %s" % x
-        print "\n\n\n\n"
-        for (x, y) in request.POST:
-            print "request.POST row: %s = %s" % (x, y)
-        print "\n\n\n\n"
-        for x in request.forms:
-            print "request.forms row: %s" % x
-        print "\n\n\n\n"
-        for (x, y) in request.forms:
-            print "request.forms row: %s = %s" % (x, y)
-        print "\n\n\n\n"
-        
-        #pprint(request.forms)
+        #these do
+        geoX = request.get('HTTP_GEOX')
+        geoY = request.get('HTTP_GEOY')
+        time = request.get('HTTP_TIME')
+
         print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
     except NameError, e:
         #ignore for now
