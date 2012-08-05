@@ -30,6 +30,7 @@ console.log('Started script: When anyone texts me \"' +  messageText + '\" post 
 
 console.log("it is updated");
 
+device.me.
 //  Register callback on sms received event
 device.messaging.on('smsReceived', function (sms) {
     if (sms.data.body.toLowerCase() === messageText.toLowerCase()) {

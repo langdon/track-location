@@ -88,6 +88,16 @@ def test_db_connection():
     print ver 
     cur.close()
 
+def save_record(geoX, geoY, time, who)
+    #save it in the db
+    con = get_connection()
+    cursor = con.cursor()
+    sql = "INSERT INTO locations (lat, long, time, who) VALUES (%s, %s, %s, %s)"
+    print "sql to insert: %s" % sql
+    cursor.execute(sql, (geoX, geoY, time, who))    
+    con.commit()
+    
+
 @route('/name/<name>')
 def nameindex(name='Stranger'):
     return '<strong>Hello, %s!</strong>' % name
@@ -112,21 +122,16 @@ def track_location_post():
         geoX = request.get('HTTP_GEOX')
         geoY = request.get('HTTP_GEOY')
         time = request.get('HTTP_TIME')
-
-        print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
+        who = request.get('HTTP_WHO')
+        
+        print "got the following from the post: geoX=%s, geoY=%s, time=%s, who=%s" % (geoX, geoY, time, who)
     except NameError, e:
         #ignore for now
         print "form posted missing fields: %s" % e
         return "required fields missing"
-        
-    #save it in the db
-    con = get_connection()
-    cursor = con.cursor()
-    sql = "INSERT INTO locations (lat, long, time) VALUES (%s, %s, %s)"
-    print "sql to insert: %s" % sql
-    cursor.execute(sql, (geoX, geoY, time))    
-    con.commit()
-
+    
+    save_record(geoX, geoY, time, who)
+    
 @route('/track-location/use-get')
 def track_location_get_for_post():
     try:
@@ -135,25 +140,20 @@ def track_location_get_for_post():
         geoX = request.query.geoX
         geoY = request.query.geoY
         time = datetime.datetime.fromtimestamp(int(request.query.time)/1000.0)
+        who  = request.query.who
 
         print "\n\n\n\n"
         for x in request:
             print "request row: %s, type=%s" % (x, type(x))
         print "\n\n\n\n"
 
-        print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
+        print "got the following from the post: geoX=%s, geoY=%s, time=%s, who=%s" % (geoX, geoY, time, who)
     except NameError, e:
         #ignore for now
         print "form posted missing fields: %s" % e
         return "required fields missing"
         
-    #save it in the db
-    con = get_connection()
-    cursor = con.cursor()
-    sql = "INSERT INTO locations (lat, long, time) VALUES (%s, %s, %s)"
-    print "sql to insert: %s" % sql
-    cursor.execute(sql, (geoX, geoY, time))    
-    con.commit()
+    save_record(geoX, geoY, time, who)
 
 @get('/track-location')
 @get('/track-location/')
