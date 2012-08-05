@@ -81,7 +81,7 @@ def track_location():
     #save it in the db
     con = get_connection()
     cursor = con.cursor()
-    sql = "INSERT INTO locations (lat, long, id, name, weight) VALUES (%s, %s, %s)"
+    sql = "INSERT INTO locations (lat, long, time) VALUES (%s, %s, %s)"
     cursor.execute(sql, (geoX, geoY, time))    
 
 @get('/track-location/')
