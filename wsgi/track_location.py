@@ -104,10 +104,11 @@ def track_location():
         geoX = request.forms.geoX
         geoY = request.forms.geoY
         time = request.forms.time
+
         print "\n\n\n\n"
         print json.dumps(request)
-        
         print "\n\n\n\n"
+        
         #pprint(request.forms)
         print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
     except NameError, e:
