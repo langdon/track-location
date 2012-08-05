@@ -105,14 +105,6 @@ def track_location():
         geoY = request.forms.geoY
         time = request.forms.time
         print "\n\n\n\n"
-        for (x,y) in request:
-            print "request row: %s = %s" % (x, y)
-        for x in request.bottle.request.forms:
-            print "request.bottle.request.forms: %s" % x
-            
-        for x in request.forms:
-            print "request.forms row: %s" % x
-            
         print json.dumps(request)
         
         print "\n\n\n\n"
