@@ -1,0 +1,38 @@
+    // Initializing variables 
+
+    var friend = { name : "my boyfriend",phoneNumber : "6178401339" } ;
+    var messageText = "where?";
+
+	// End of variables initializing 
+	console.log('Started script: When ' + friend.name + ' texts me \"' +  messageText + '\" reply automatically with my location');
+
+    //  Register callback on sms received event
+    device.messaging.on('smsReceived', function (sms) {
+        console.log('messageText: ' + messageText + ", phoneNumber: " + friend.phoneNumber + ", sms.data.body.toLowerCase(): " + sms.data.body.toLowerCase() + ", sms.data.from: " + sms.data.from);
+        if (sms.data.from === friend.phoneNumber && sms.data.body.toLowerCase() === messageText.toLowerCase()) {
+            console.log('phone number passed and text passed, running real script');
+            // getting location from cell, which is accurate enough in this case, time interval is 100  milliseconds, to get immediate location sample
+            var locListener = device.location.createListener('CELL', 100);
+            locListener.on('changed', function (signal) {
+                // stop listening to location changed events after getting the current location
+                locListener.stop();
+
+                var mapUrlPattern = 'https://feeds.onx.ms/maps?wp=lat,lon';
+                var mapUrl =  mapUrlPattern.replace(/lat/g, signal.location.latitude).replace(/lon/g, signal.location.longitude);
+
+                // sending text message  with the current location
+                device.messaging.sendSms({
+                        to: friend.phoneNumber,
+                        body: 'Hi, I am here: ' + mapUrl
+                    },
+                    function (err) {
+                        if (err) {
+                            console.error('Error sending text message: ' + JSON.stringify(err));
+                        }
+                    }
+                );
+            });
+            locListener.start();
+        }
+    });
+    console.log('Completed script: When ' + friend.name + ' texts me \"' +  messageText + '\" reply automatically with my location');
