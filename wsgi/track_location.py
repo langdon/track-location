@@ -96,8 +96,9 @@ def index():
     return '<strong>Hello World!</strong>'
 
 #@route('/track-location/')
-@post('/track-location')
-@post('/track-location/')
+#@post('/track-location')
+#@post('/track-location/')
+@route('/track-location/', method='POST')
 def track_location():
     try:
         #collect the location and time from the user
