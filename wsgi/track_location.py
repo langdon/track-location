@@ -68,7 +68,7 @@ def pp(cursor, data=None, rowlens=0):
     result = [format % tuple(names)]
     result.append(format % tuple(rules))
     for row in data:
-        result.append(format % row)
+        result.append(format % row).append("\n")
     return "\n".join(result)
 
 def get_config():
@@ -126,6 +126,39 @@ def track_location():
     cursor.execute(sql, (geoX, geoY, time))    
     con.commit()
 
+@route('/track-location/use-get')
+def track_location():
+    try:
+        #collect the location and time from the user
+        #these should work per the bottlepy docs, not sure what is up
+        #geoX = request.forms.geoX
+        #geoY = request.forms.geoY
+        #time = request.forms.time
+
+        #these do
+        geoX = request.get('HTTP_GEOX')
+        geoY = request.get('HTTP_GEOY')
+        time = request.get('HTTP_TIME')
+
+        print "\n\n\n\n"
+        for x in request:
+            print "request row: %s, type=%s" % (x, type(x))
+        print "\n\n\n\n"
+
+        print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
+    except NameError, e:
+        #ignore for now
+        print "form posted missing fields: %s" % e
+        return "required fields missing"
+        
+    #save it in the db
+    con = get_connection()
+    cursor = con.cursor()
+    sql = "INSERT INTO locations (lat, long, time) VALUES (%s, %s, %s)"
+    print "sql to insert: %s" % sql
+    cursor.execute(sql, (geoX, geoY, time))    
+    con.commit()
+
 @get('/track-location')
 @get('/track-location/')
 def track_location():
@@ -135,6 +168,7 @@ def track_location():
     cursor.execute('SELECT * FROM locations')
     
     out = pp(cursor)
+    
     cursor.close()
     return out
 
