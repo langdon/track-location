@@ -88,7 +88,7 @@ def test_db_connection():
     print ver 
     cur.close()
 
-def save_record(geoX, geoY, time, who)
+def save_record(geoX, geoY, time, who):
     #save it in the db
     con = get_connection()
     cursor = con.cursor()
