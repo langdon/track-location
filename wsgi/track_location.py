@@ -6,6 +6,41 @@ from bottle import get, post, route, run, HTTPError, debug, template, static_fil
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 CONFIG_FILE = DATA_ROOT + '/config.conf'
 
+connection = None
+cursor = None
+ 
+def __init__(self):
+    # Connect to an existing database
+    #get a connection object
+    
+    config = get_config()
+    
+    #Define our connection string
+    conn_string = "host='" + config.get("Postgres Creds", "host") + "' "
+    conn_string += "port='" + config.get("Postgres Creds", "port") + "' "
+    conn_string += "user='" + config.get("Postgres Creds", "user") + "' "
+    conn_string += "password='" + config.get("Postgres Creds", "pass") + "' "
+    conn_string += "dbname='" + config.get("Postgres Creds", "db_name") + "' "
+ 
+    try:
+        # print the connection string we will use to connect
+        print "Connecting to database\n	->%s" % (conn_string)
+     
+    	# get a connection, if a connect cannot be made an exception will be raised here
+    	connection = psycopg2.connect(conn_string)
+     
+    except psycopg2.DatabaseError, e:
+        print 'Error %s' % e    
+        sys.exit(1)
+
+    test_db_connection()
+                
+def __del__(self):
+    if self.cursor is not None:
+        self.cursor.close();
+    if self.connection is not None:
+        self.connection.close
+
 @route('/name/<name>')
 def nameindex(name='Stranger'):
     return '<strong>Hello, %s!</strong>' % name
@@ -19,49 +54,14 @@ def get_config():
     config.read(CONFIG_FILE)
     return config    
     
-def get_connection():
-    #get a connection object
-    
-    config = get_config()
-    
-    #Define our connection string
-    conn_string = "host='" + config.get("Postgres Creds", "host") + "' "
-    conn_string += "port='" + config.get("Postgres Creds", "port") + "' "
-    conn_string += "user='" + config.get("Postgres Creds", "user") + "' "
-    conn_string += "password='" + config.get("Postgres Creds", "pass") + "' "
-    conn_string += "dbname='" + config.get("Postgres Creds", "db_name") + "' "
- 
-    con = None
-    try:
-        # print the connection string we will use to connect
-    	print "Connecting to database\n	->%s" % (conn_string)
-     
-    	# get a connection, if a connect cannot be made an exception will be raised here
-    	con = psycopg2.connect(conn_string)
-     
-    except psycopg2.DatabaseError, e:
-        print 'Error %s' % e    
-        sys.exit(1)
-                
-    return con
-
 def test_db_connection():
-    con = None
-    try:
-        con = get_connection()
-        cur = con.cursor()
-        print "Connected!\n"
-        
-        cur.execute('SELECT version()')          
-        ver = cur.fetchone()
-        print ver    
-        
-    except Exception, e:
-        print "test failed: %s" % e
-    finally:        
-        if con:
-            con.close()
-
+    cur = self.connection.cursor()
+    print "Testing Connected!\n"
+    
+    cur.execute('SELECT version()')          
+    ver = cur.fetchone()
+    print ver 
+    cur.close()
 
 #@route('/track-location/')
 @post('/track-location/')
@@ -71,40 +71,32 @@ def track_location():
         geoX = request.forms.get('geoX')
         geoY = request.forms.get('geoY')
         time = request.forms.get('time')
-    except NameError:
+    except NameError, e:
         #ignore for now
-        pass
-    
-    test_db_connection()
-    
-    config = get_config()
-    out = str(config.sections())
-    out += str(config.get("Postgres Creds", "user"))
-    return out
+        print "form posted missing fields: %s" % e
+        return "required fields missing"
+        
     #save it in the db
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute('SELECT * FROM locations')
+    
+    out = ""
+    for row in cursor:
+        out += "%s    %s<br />\n" % row
+    cursor.close()
+    return out
 
 @get('/track-location/')
 def track_location():
     #print out the locations found        
-    test_db_connection()
-
-    con = None
-    try:
-        con = get_connection()
-        cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cursor.execute('SELECT * FROM locations')
-        
-        out = ""
-        for row in cursor:
-            out += "%s    %s<br />\n" % row
-        return out
-    except Exception, e:
-        "attempt on track-location failed: %s" % e
-
-    finally:        
-        if con:
-            con.close()
-
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute('SELECT * FROM locations')
+    
+    out = ""
+    for row in cursor:
+        out += "%s    %s<br />\n" % row
+    cursor.close()
+    return out
 
 # This must be added in order to do correct path lookups for the views
 import os
