@@ -128,6 +128,22 @@ def track_location():
     cursor.close()
     return out
 
+@get('/add-location/')
+def track_location():
+    out = '''
+        <html>
+            <body>
+                <form action="/track-location/">
+                    geoX: <input type="text" name="geoX" /><br />
+                    geoY: <input type="text" name="geoY" /><br />
+                    time: <input type="text" name="time" /><br />
+                    <input type="submit" value="Submit" />
+                </form>
+            </body>
+        </html>
+    '''
+    return out
+
 # This must be added in order to do correct path lookups for the views
 import os
 from bottle import TEMPLATE_PATH
