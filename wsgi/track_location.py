@@ -13,18 +13,21 @@ def get_connection():
 
     global _connection
     if (_connection is None):
+        print "no connection, creating"
+        
         config = get_config()
+        print "getting the connection string from the config file"
         
         #Define our connection string
         conn_string = "host='" + config.get("Postgres Creds", "host") + "' "
         conn_string += "port='" + config.get("Postgres Creds", "port") + "' "
         conn_string += "user='" + config.get("Postgres Creds", "user") + "' "
-        conn_string += "password='" + config.get("Postgres Creds", "pass") + "' "
         conn_string += "dbname='" + config.get("Postgres Creds", "db_name") + "' "
      
         try:
             # print the connection string we will use to connect
             print "Connecting to database\n	->%s" % (conn_string)
+            conn_string += "password='" + config.get("Postgres Creds", "pass") + "' "
          
         	# get a connection, if a connect cannot be made an exception will be raised here
             _connection = psycopg2.connect(conn_string)
@@ -34,7 +37,8 @@ def get_connection():
             sys.exit(1)
         
         test_db_connection()
-
+    
+    print "returning connection, object is: %s" % _connection
     return _connection 
 
 @route('/name/<name>')
