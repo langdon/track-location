@@ -93,7 +93,7 @@ def track_location():
 def track_location():
     #print out the locations found
     con = get_connection()
-    cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor = con.cursor() #cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
     out = ""
