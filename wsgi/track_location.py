@@ -83,6 +83,7 @@ def track_location():
     cursor = con.cursor()
     sql = "INSERT INTO locations (lat, long, time) VALUES (%s, %s, %s)"
     cursor.execute(sql, (geoX, geoY, time))    
+    con.commit()
 
 @get('/track-location/')
 def track_location():
