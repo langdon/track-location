@@ -6,10 +6,9 @@ from bottle import get, post, route, run, HTTPError, debug, template, static_fil
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 CONFIG_FILE = DATA_ROOT + '/config.conf'
 
-
 connection = None
  
-def __init__(self):
+def __init__():
     # Connect to an existing database
     #get a connection object
     
@@ -35,9 +34,9 @@ def __init__(self):
 
     test_db_connection()
                 
-def __del__(self):
-    if self.connection is not None:
-        self.connection.close
+def __del__():
+    if connection is not None:
+        connection.close
 
 @route('/name/<name>')
 def nameindex(name='Stranger'):
@@ -52,8 +51,8 @@ def get_config():
     config.read(CONFIG_FILE)
     return config    
     
-def test_db_connection(self):
-    cur = self.connection.cursor()
+def test_db_connection():
+    cur = connection.cursor()
     print "Testing Connected!\n"
     
     cur.execute('SELECT version()')          
@@ -63,7 +62,7 @@ def test_db_connection(self):
 
 #@route('/track-location/')
 @post('/track-location/')
-def track_location(self):
+def track_location():
     try:
         #collect the location and time from the user
         geoX = request.forms.get('geoX')
@@ -75,7 +74,7 @@ def track_location(self):
         return "required fields missing"
         
     #save it in the db
-    cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
     out = ""
@@ -85,9 +84,9 @@ def track_location(self):
     return out
 
 @get('/track-location/')
-def track_location(self):
+def track_location():
     #print out the locations found        
-    cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
     out = ""
