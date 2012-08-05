@@ -7,7 +7,6 @@ DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 CONFIG_FILE = DATA_ROOT + '/config.conf'
 
 connection = None
-cursor = None
  
 def __init__(self):
     # Connect to an existing database
@@ -36,8 +35,6 @@ def __init__(self):
     test_db_connection()
                 
 def __del__(self):
-    if self.cursor is not None:
-        self.cursor.close();
     if self.connection is not None:
         self.connection.close
 
@@ -77,7 +74,7 @@ def track_location():
         return "required fields missing"
         
     #save it in the db
-    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
     out = ""
@@ -89,7 +86,7 @@ def track_location():
 @get('/track-location/')
 def track_location():
     #print out the locations found        
-    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
     out = ""
