@@ -49,7 +49,7 @@ def pp(cursor, data=None, rowlens=0):
     lengths = []
     rules = []
     if not data:
-        t = cursor.fetchall()
+        data = cursor.fetchall()
     for dd in d:    # iterate over description
         l = dd[1]
         if not l:
