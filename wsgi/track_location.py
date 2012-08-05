@@ -10,7 +10,8 @@ _connection = None
  
 def get_connection():
     #get a connection object
-    
+
+    global _connection
     if (_connection is None):
         config = get_config()
         
