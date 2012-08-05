@@ -1,7 +1,7 @@
 import sys, os
 import ConfigParser
 import psycopg2
-from bottle import get, post, route, run, HTTPError, debug, template, static_file, default_app
+from bottle import get, post, route, run, request, HTTPError, debug, template, static_file, default_app
 
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 CONFIG_FILE = DATA_ROOT + '/config.conf'
@@ -80,7 +80,9 @@ def track_location():
         
     #save it in the db
     con = get_connection()
-    cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor = con.cursor()
+    sql = "INSERT INTO locations (lat, long, id, name, weight) VALUES (%s, %s, %s)"
+    self.cursor.execute(sql, (item.id, item.title, item.order))
     cursor.execute('SELECT * FROM locations')
     
     out = ""
