@@ -11,7 +11,7 @@ _connection = None
 def get_connection():
     #get a connection object
     
-    if (!_connection):
+    if (_connection is None):
         config = get_config()
         
         #Define our connection string
