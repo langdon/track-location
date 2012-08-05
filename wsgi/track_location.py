@@ -95,13 +95,14 @@ def index():
     return '<strong>Hello World!</strong>'
 
 #@route('/track-location/')
+@post('/track-location')
 @post('/track-location/')
 def track_location():
     try:
         #collect the location and time from the user
-        geoX = request.forms.get('geoX')
-        geoY = request.forms.get('geoY')
-        time = request.forms.get('time')
+        geoX = request.forms.geoX
+        geoY = request.forms.geoY
+        time = request.forms.time
         pprint(request.forms)
         print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
     except NameError, e:
@@ -117,6 +118,7 @@ def track_location():
     cursor.execute(sql, (geoX, geoY, time))    
     con.commit()
 
+@get('/track-location')
 @get('/track-location/')
 def track_location():
     #print out the locations found
@@ -128,6 +130,7 @@ def track_location():
     cursor.close()
     return out
 
+@get('/add-location')
 @get('/add-location/')
 def track_location():
     out = '''
