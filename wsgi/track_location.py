@@ -6,37 +6,35 @@ from bottle import get, post, route, run, HTTPError, debug, template, static_fil
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 CONFIG_FILE = DATA_ROOT + '/config.conf'
 
-connection = None
+_connection = None
  
-def __init__():
-    # Connect to an existing database
+def get_connection():
     #get a connection object
     
-    config = get_config()
-    
-    #Define our connection string
-    conn_string = "host='" + config.get("Postgres Creds", "host") + "' "
-    conn_string += "port='" + config.get("Postgres Creds", "port") + "' "
-    conn_string += "user='" + config.get("Postgres Creds", "user") + "' "
-    conn_string += "password='" + config.get("Postgres Creds", "pass") + "' "
-    conn_string += "dbname='" + config.get("Postgres Creds", "db_name") + "' "
- 
-    try:
-        # print the connection string we will use to connect
-        print "Connecting to database\n	->%s" % (conn_string)
+    if (_connection == None):
+        config = get_config()
+        
+        #Define our connection string
+        conn_string = "host='" + config.get("Postgres Creds", "host") + "' "
+        conn_string += "port='" + config.get("Postgres Creds", "port") + "' "
+        conn_string += "user='" + config.get("Postgres Creds", "user") + "' "
+        conn_string += "password='" + config.get("Postgres Creds", "pass") + "' "
+        conn_string += "dbname='" + config.get("Postgres Creds", "db_name") + "' "
      
-    	# get a connection, if a connect cannot be made an exception will be raised here
-    	connection = psycopg2.connect(conn_string)
-     
-    except psycopg2.DatabaseError, e:
-        print 'Error %s' % e    
-        sys.exit(1)
+        try:
+            # print the connection string we will use to connect
+            print "Connecting to database\n	->%s" % (conn_string)
+         
+        	# get a connection, if a connect cannot be made an exception will be raised here
+        	_connection = psycopg2.connect(conn_string)
+         
+        except psycopg2.DatabaseError, e:
+            print 'Error %s' % e    
+            sys.exit(1)
+        
+        test_db_connection()
 
-    test_db_connection()
-                
-def __del__():
-    if connection is not None:
-        connection.close
+    return _connection 
 
 @route('/name/<name>')
 def nameindex(name='Stranger'):
@@ -52,7 +50,9 @@ def get_config():
     return config    
     
 def test_db_connection():
-    cur = connection.cursor()
+    con = get_connection()
+    
+    cur = con.cursor()
     print "Testing Connected!\n"
     
     cur.execute('SELECT version()')          
@@ -74,7 +74,8 @@ def track_location():
         return "required fields missing"
         
     #save it in the db
-    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    con = get_connection()
+    cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
     out = ""
@@ -85,8 +86,9 @@ def track_location():
 
 @get('/track-location/')
 def track_location():
-    #print out the locations found        
-    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    #print out the locations found
+    con = get_connection()
+    cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
     out = ""
