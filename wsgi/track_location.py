@@ -51,7 +51,7 @@ def get_config():
     config.read(CONFIG_FILE)
     return config    
     
-def test_db_connection():
+def test_db_connection(self):
     cur = self.connection.cursor()
     print "Testing Connected!\n"
     
@@ -62,7 +62,7 @@ def test_db_connection():
 
 #@route('/track-location/')
 @post('/track-location/')
-def track_location():
+def track_location(self):
     try:
         #collect the location and time from the user
         geoX = request.forms.get('geoX')
@@ -84,7 +84,7 @@ def track_location():
     return out
 
 @get('/track-location/')
-def track_location():
+def track_location(self):
     #print out the locations found        
     cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
