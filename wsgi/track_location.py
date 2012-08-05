@@ -131,14 +131,10 @@ def track_location_get_for_post():
     try:
         #collect the location and time from the user
         #these should work per the bottlepy docs, not sure what is up
-        #geoX = request.forms.geoX
-        #geoY = request.forms.geoY
-        #time = request.forms.time
+        geoX = request.query.geoX
+        geoY = request.query.geoY
+        time = request.query.time
 
-        #these do
-        geoX = request.get('HTTP_GEOX')
-        geoY = request.get('HTTP_GEOY')
-        time = request.get('HTTP_TIME')
 
         print "\n\n\n\n"
         for x in request:
