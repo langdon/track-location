@@ -99,7 +99,7 @@ def index():
 #@post('/track-location')
 #@post('/track-location/')
 @route('/track-location/', method='POST')
-def track_location():
+def track_location_post():
     try:
         #collect the location and time from the user
         #these should work per the bottlepy docs, not sure what is up
@@ -127,7 +127,7 @@ def track_location():
     con.commit()
 
 @route('/track-location/use-get')
-def track_location():
+def track_location_get_for_post():
     try:
         #collect the location and time from the user
         #these should work per the bottlepy docs, not sure what is up
@@ -161,7 +161,7 @@ def track_location():
 
 @get('/track-location')
 @get('/track-location/')
-def track_location():
+def track_location_get():
     #print out the locations found
     con = get_connection()
     cursor = con.cursor() #cursor_factory=psycopg2.extras.DictCursor)
@@ -174,7 +174,7 @@ def track_location():
 
 @get('/add-location')
 @get('/add-location/')
-def track_location():
+def track_location_add_as_form():
     out = '''
         <html>
             <body>
