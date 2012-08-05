@@ -111,6 +111,9 @@ def track_location():
         print "\n\n\n\n"
         pprint(request.forms)
         print "\n\n\n\n"
+        for x in request:
+            print "request row: %s" % x
+        print "\n\n\n\n"
         for x in request.POST:
             print "request.POST row: %s" % x
         print "\n\n\n\n"
