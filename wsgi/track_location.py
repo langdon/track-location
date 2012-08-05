@@ -4,6 +4,7 @@ import psycopg2
 from pprint import pprint
 from bottle import get, post, route, run, request, HTTPError, debug, template, static_file, default_app
 import json
+import datetime
 
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 CONFIG_FILE = DATA_ROOT + '/config.conf'
@@ -133,7 +134,7 @@ def track_location_get_for_post():
         #these should work per the bottlepy docs, not sure what is up
         geoX = request.query.geoX
         geoY = request.query.geoY
-        time = request.query.time
+        time = datetime.datetime.fromtimestamp(int(request.query.time))
 
 
         print "\n\n\n\n"
