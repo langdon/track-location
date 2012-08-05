@@ -111,6 +111,12 @@ def track_location():
         print "\n\n\n\n"
         pprint(request.forms)
         print "\n\n\n\n"
+        print "request.HTTP_GEOX: %s" % request.HTTP_GEOX
+        print "request.HTTP_GEOY: %s" % request.HTTP_GEOY
+        print "request.HTTP_TIME: %s" % request.HTTP_TIME
+        print "request.QUERY_STRING: %s" % request.QUERY_STRING
+        
+        print "\n\n\n\n"
         for x in request:
             print "request row: %s" % x
         print "\n\n\n\n"
