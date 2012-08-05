@@ -69,7 +69,6 @@ def pp(cursor, data=None, rowlens=0):
     result.append(format % tuple(rules))
     for row in data:
         result.append(format % row)
-        result.append("\n")
     return "\n".join(result)
 
 def get_config():
@@ -169,8 +168,8 @@ def track_location():
     cursor.execute('SELECT * FROM locations')
     
     out = pp(cursor)
-    
     cursor.close()
+    out = out.replace('\n', '<br />\n')
     return out
 
 @get('/add-location')
