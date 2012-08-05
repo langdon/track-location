@@ -1,6 +1,7 @@
 import sys, os
 import ConfigParser
 import psycopg2
+import pprint
 from bottle import get, post, route, run, request, HTTPError, debug, template, static_file, default_app
 
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
