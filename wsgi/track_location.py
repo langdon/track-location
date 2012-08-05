@@ -6,6 +6,7 @@ from bottle import get, post, route, run, HTTPError, debug, template, static_fil
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 CONFIG_FILE = DATA_ROOT + '/config.conf'
 
+
 connection = None
  
 def __init__(self):
