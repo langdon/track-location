@@ -41,13 +41,33 @@ def get_connection():
     print "returning connection, object is: %s" % _connection
     return _connection 
 
-@route('/name/<name>')
-def nameindex(name='Stranger'):
-    return '<strong>Hello, %s!</strong>' % name
- 
-@route('/')
-def index():
-    return '<strong>Hello World!</strong>'
+def pp(cursor, data=None, rowlens=0):
+    d = cursor.description
+    if not d:
+        return "#### NO RESULTS ###"
+    names = []
+    lengths = []
+    rules = []
+    if not data:
+        t = cursor.fetchall()
+    for dd in d:    # iterate over description
+        l = dd[1]
+        if not l:
+            l = 12             # or default arg ...
+        l = max(l, len(dd[0])) # handle long names
+        names.append(dd[0])
+        lengths.append(l)
+    for col in range(len(lengths)):
+        if rowlens:
+            rls = [len(str(row[col])) for row in data if row[col]]
+            lengths[col] = max([lengths[col]]+rls)
+        rules.append("-"*lengths[col])
+    format = " ".join(["%%-%ss" % l for l in lengths])
+    result = [format % tuple(names)]
+    result.append(format % tuple(rules))
+    for row in data:
+        result.append(format % row)
+    return "\n".join(result)
 
 def get_config():
     config = ConfigParser.ConfigParser()
@@ -64,6 +84,14 @@ def test_db_connection():
     ver = cur.fetchone()
     print ver 
     cur.close()
+
+@route('/name/<name>')
+def nameindex(name='Stranger'):
+    return '<strong>Hello, %s!</strong>' % name
+ 
+@route('/')
+def index():
+    return '<strong>Hello World!</strong>'
 
 #@route('/track-location/')
 @post('/track-location/')
@@ -92,9 +120,7 @@ def track_location():
     cursor = con.cursor() #cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
-    out = ""
-    for row in cursor:
-        out += "%s    %s<br />\n" % row
+    out = pp(cursor)
     cursor.close()
     return out
 
