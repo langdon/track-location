@@ -103,7 +103,9 @@ def track_location():
         geoX = request.forms.geoX
         geoY = request.forms.geoY
         time = request.forms.time
-        pprint(request.forms)
+        for x in request.forms
+            print "request.forms row: %s" % x
+        #pprint(request.forms)
         print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
     except NameError, e:
         #ignore for now
