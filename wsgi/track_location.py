@@ -3,6 +3,7 @@ import ConfigParser
 import psycopg2
 from pprint import pprint
 from bottle import get, post, route, run, request, HTTPError, debug, template, static_file, default_app
+import json
 
 DATA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 CONFIG_FILE = DATA_ROOT + '/config.conf'
@@ -111,6 +112,9 @@ def track_location():
             
         for x in request.forms:
             print "request.forms row: %s" % x
+            
+        print json.dumps(request)
+        
         print "\n\n\n\n"
         #pprint(request.forms)
         print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
