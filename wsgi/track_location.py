@@ -110,6 +110,12 @@ def track_location():
         print "\n\n\n\n"
         pprint(request.forms)
         print "\n\n\n\n"
+        for x in request.forms:
+            print "request.forms row: %s" % x
+        print "\n\n\n\n"
+        for (x, y) in request.forms:
+            print "request.forms row: %s = %s" % (x, y)
+        print "\n\n\n\n"
         
         #pprint(request.forms)
         print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
