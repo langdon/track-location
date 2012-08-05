@@ -101,7 +101,7 @@ def track_location():
         geoX = request.forms.get('geoX')
         geoY = request.forms.get('geoY')
         time = request.forms.get('time')
-        print "got the following from the post: geoX=%s, geoY=%s, time=%s" % geoX, geoY, time
+        print "got the following from the post: geoX=%s, geoY=%s, time=%s" % (geoX, geoY, time)
     except NameError, e:
         #ignore for now
         print "form posted missing fields: %s" % e
