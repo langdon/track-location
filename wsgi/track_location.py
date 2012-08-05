@@ -68,7 +68,8 @@ def pp(cursor, data=None, rowlens=0):
     result = [format % tuple(names)]
     result.append(format % tuple(rules))
     for row in data:
-        result.append(format % row).append("\n")
+        result.append(format % row)
+        result.append("\n")
     return "\n".join(result)
 
 def get_config():
