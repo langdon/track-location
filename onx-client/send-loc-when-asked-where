@@ -1,6 +1,6 @@
     // Initializing variables 
 
-    var friend = { name : "my boyfriend",phoneNumber : "6178401339" } ;
+    var friend = { name : "my boyfriend",phoneNumber : "6175551212" } ;
     var messageText = "where?";
 
 	// End of variables initializing 

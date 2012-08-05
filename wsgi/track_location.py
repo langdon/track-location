@@ -134,8 +134,7 @@ def track_location_get_for_post():
         #these should work per the bottlepy docs, not sure what is up
         geoX = request.query.geoX
         geoY = request.query.geoY
-        time = datetime.datetime.fromtimestamp(int(request.query.time))
-
+        time = datetime.datetime.fromtimestamp(int(request.query.time)/1000.0)
 
         print "\n\n\n\n"
         for x in request:
