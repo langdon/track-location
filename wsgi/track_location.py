@@ -101,6 +101,7 @@ def track_location():
         geoX = request.forms.get('geoX')
         geoY = request.forms.get('geoY')
         time = request.forms.get('time')
+        print "got the following from the post: geoX=%s, geoY=%s, time=%s" % geoX, geoY, time
     except NameError, e:
         #ignore for now
         print "form posted missing fields: %s" % e
@@ -110,6 +111,7 @@ def track_location():
     con = get_connection()
     cursor = con.cursor()
     sql = "INSERT INTO locations (lat, long, time) VALUES (%s, %s, %s)"
+    print "sql to insert: %s" % sql
     cursor.execute(sql, (geoX, geoY, time))    
     con.commit()
 
