@@ -114,7 +114,7 @@ def track_location():
         print "request.HTTP_GEOX: %s" % request.get('HTTP_GEOX')
         print "request.HTTP_GEOY: %s" % request.get('HTTP_GEOY')
         print "request.HTTP_TIME: %s" % request.get('HTTP_TIME')
-        print "request.QUERY_STRING: %s" % request.QUERY_STRING
+        print "request.QUERY_STRING: %s" % request.get('QUERY_STRING')
         
         print "\n\n\n\n"
         for x in request:
