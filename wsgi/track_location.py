@@ -106,7 +106,9 @@ def track_location():
         time = request.forms.time
 
         print "\n\n\n\n"
-        print json.dumps(request)
+        pprint(request)
+        print "\n\n\n\n"
+        pprint(request.forms)
         print "\n\n\n\n"
         
         #pprint(request.forms)
