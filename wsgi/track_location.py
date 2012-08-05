@@ -11,7 +11,7 @@ _connection = None
 def get_connection():
     #get a connection object
     
-    if (_connection == None):
+    if (!_connection):
         config = get_config()
         
         #Define our connection string
@@ -26,7 +26,7 @@ def get_connection():
             print "Connecting to database\n	->%s" % (conn_string)
          
         	# get a connection, if a connect cannot be made an exception will be raised here
-        	_connection = psycopg2.connect(conn_string)
+            _connection = psycopg2.connect(conn_string)
          
         except psycopg2.DatabaseError, e:
             print 'Error %s' % e    
