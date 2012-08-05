@@ -11,7 +11,7 @@ console.log('Started script: When anyone texts me \"' +  messageText + '\" post 
  device.scheduler.setTimer({
       name: "sendLocationAlarm", 
       time: 0,
-      interval: 5*1000, 
+      interval: 10*1000*60, 
       exact: false },
       function () { device.notifications.createNotification('Hello world!').show(); });
 
@@ -19,74 +19,47 @@ console.log('Started script: When anyone texts me \"' +  messageText + '\" post 
        { device.scheduler.removeTimer("uniqueAlarmName"); });
        
 // Initializing variables 
-
-var messageText = "where2?";
-var targetServer = "http://trackloc-rheldev.rhcloud.com/track-location/use-get?geoX=lat&geoY=lon&time=currTime&from=myPhoneNum";
-//var targetServer = "http://trackloc-rheldev.rhcloud.com/track-location/";
-
+var targetServer = "http://trackloc-rheldev.rhcloud.com/track-location/use-get?geoX=lat&geoY=lon&time=currTime&who=myPhoneNum";
 // End of variables initializing 
-
-console.log('Started script: When anyone texts me \"' +  messageText + '\" post with my location');
-
-console.log("it is updated again 8");
+console.log('Started script: post loc');
+console.log("it is updated again 4");
 
 //  Register callback on sms received event
-device.messaging.on('smsReceived', function (sms) {
-    console.log("sms.data.body.toLowerCase(): " + sms.data.body.toLowerCase() + ", sms.data.from: " + sms.data.from);
-    if (sms.data.body.toLowerCase() === messageText.toLowerCase()) {
-        console.log('messageText: ' + messageText  + ", sms.data.body.toLowerCase(): " + sms.data.body.toLowerCase() + ", sms.data.from: " + sms.data.from);
+ device.scheduler.setTimer({
+      name: "sendLocationAlarm", 
+      time: 0,
+      interval: 10*1000*60,
+      exact: false },
+      function () {
+        console.log("Timer fired, now = " + (new Date()));
         // getting location from cell, which is accurate enough in this case, time interval is 100  milliseconds, to get immediate location sample
         var locListener = device.location.createListener('CELL', 100);
         locListener.on('changed', function (signal) {
             // stop listening to location changed events after getting the current location
             locListener.stop();
-
+            
             var d = new Date();
             var locationTrackerUrl = targetServer.replace(/lat/g, signal.location.latitude)
                 .replace(/lon/g, signal.location.longitude)
                 .replace(/currTime/g, d.getTime())
                 .replace(/myPhoneNum/g, "6179533605");
-            //var locationTrackerUrl = targetServer;
-
-            var notification = device.notifications.createNotification('Calling locationTrackerUrl: ' + locationTrackerUrl);
-            /*device.ajax(
+    
+            console.log('Calling locationTrackerUrl: ' + locationTrackerUrl);
+            device.ajax(
                 {
-                  url: locationTrackerUrl,
-                  type: 'POST',
-                  data: {
-                      "geoX": "\"" + signal.location.latitude + "\"",
-                      "geoY": "\"" + signal.location.longitude + "\"",
-                      "time": "\"" + d.getTime() + "\""
-                  }
+                  url: locationTrackerUrl
                 },
                 function onSuccess(body, textStatus, response) {
-                  console.info('successfully received http response!');
-                  notification.content = 'successfully received http response!';
-                  notification.show();
+                  console.info('successfully received http response from get call!');
                 },
                 function onError(textStatus, response) {
                   var error = {};
                   error.message = textStatus;
                   error.statusCode = response.status;
                     console.error('error: ',error);
-            });*/
-                device.ajax(
-                    {
-                      url: locationTrackerUrl
-                    },
-                    function onSuccess(body, textStatus, response) {
-                      console.info('successfully received http response from get call!');
-                      notification.content = 'successfully received http response!';
-                      notification.show();
-                    },
-                    function onError(textStatus, response) {
-                      var error = {};
-                      error.message = textStatus;
-                      error.statusCode = response.status;
-                        console.error('error: ',error);
                 });
-        });
-        locListener.start();
-    }
-});
-console.log('Completed script: When anyone texts me \"' +  messageText + '\" post with my location');
+            });
+            locListener.start();
+        }
+);
+console.log('Completed script: post loc');
