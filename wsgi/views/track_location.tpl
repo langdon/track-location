@@ -12,7 +12,7 @@
 </%block>
 <%block name="content">
 <div id="track-locations-map">
-<div id="map_canvas" style="width:250px;height:250px"></div>
+<div id="map_canvas" style="width:640px;height:480px"></div>
 <script type="text/javascript">
         $(function() {
                 var yourStartLatLng = new google.maps.LatLng(42.333796,-71.051582);
