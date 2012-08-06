@@ -146,7 +146,7 @@ def track_location_get_for_post():
         #for x in request:
         #    print "request row: %s, type=%s" % (x, type(x))
         #print "\n\n\n\n"
-
+ 
         print "got the following from the post: geoX=%s, geoY=%s, time=%s, who=%s" % (geoX, geoY, time, who)
     except NameError, e:
         #ignore for now
