@@ -166,7 +166,7 @@ def track_location_get():
     
     table_rows_string = pp(cursor, table_rows)
     cursor.close()
-    return template('track_location', (data_grid_string=table_rows_string, data_grid=table_rows )
+    return template('track_location', dict(data_grid_string=table_rows_string, data_grid=table_rows )
 
 @get('/add-location')
 @get('/add-location/')
