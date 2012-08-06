@@ -167,7 +167,7 @@ def track_location_get():
     table_rows = pp(cursor)
     cursor.close()
     #table_rows = table_rows.replace('\n', '<br />\n')
-    return mako_template('track_location', data_grid=table_rows)
+    return template('track_location', data_grid=table_rows)
 
 @get('/add-location')
 @get('/add-location/')
