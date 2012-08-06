@@ -142,10 +142,10 @@ def track_location_get_for_post():
         time = datetime.datetime.fromtimestamp(int(request.query.time)/1000.0)
         who  = request.query.who
 
-        print "\n\n\n\n"
-        for x in request:
-            #print "request row: %s, type=%s" % (x, type(x))
-        print "\n\n\n\n"
+        #print "\n\n\n\n"
+        #for x in request:
+        #    print "request row: %s, type=%s" % (x, type(x))
+        #print "\n\n\n\n"
 
         print "got the following from the post: geoX=%s, geoY=%s, time=%s, who=%s" % (geoX, geoY, time, who)
     except NameError, e:
