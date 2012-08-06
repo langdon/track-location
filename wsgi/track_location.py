@@ -97,7 +97,9 @@ def save_record(geoX, geoY, time, who):
     print "sql to insert: %s" % sql
     cursor.execute(sql, (geoX, geoY, time, who))    
     con.commit()
-    
+
+def get_path_to_static():
+    return os.path.join(os.environ['OPENSHIFT_GEAR_DIR'], 'runtime/repo/wsgi/static')
 
 @route('/name/<name>')
 def nameindex(name='Stranger'):
@@ -106,6 +108,14 @@ def nameindex(name='Stranger'):
 @route('/')
 def index():
     return '<strong>Hello World!</strong>'
+
+@route('/css/<filepath:path>')
+def server_css(filepath):
+    return static_file(filepath, root= get_path_to_static() + '/css')
+
+@route('/scripts/<filepath:path>')
+def server_scripts(filepath):
+    return static_file(filepath, root= get_path_to_static() + '/scripts')
 
 #@route('/track-location/')
 #@post('/track-location')
