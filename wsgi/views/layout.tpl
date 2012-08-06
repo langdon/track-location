@@ -3,18 +3,15 @@
 <%! 
     import os 
     
-    def get_path_to_scripts():
-        return os.path.join(os.environ['OPENSHIFT_GEAR_DIR'], 'runtime/repo/wsgi/static/scripts')
+    def get_path_to_static():
+        return os.path.join(os.environ['OPENSHIFT_GEAR_DIR'], 'runtime/repo/wsgi/static')
 %>
   <head>
-    <link rel="stylesheet" href="/css/overcast/jquery-ui-1.8.21.custom.css" type="text/css" media="all" />
-      <script src="/scripts/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
-  	<script src="/scripts/jquery-ui-1.8.21.custom.min.js" type="text/javascript" charset="utf-8"></script>
-  	<script src="/scripts/moment.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="${ get_path_to_static() }/css/overcast/jquery-ui-1.8.21.custom.css" type="text/css" media="all" />
     <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js" type="text/javascript" ></script>
-    <script src="${ get_path_to_scripts() }/ui/jquery.ui.map.js" type="text/javascript"></script>
+    <script src="${ get_path_to_static() }/scripts/ui/jquery.ui.map.js" type="text/javascript"></script>
     <title><%block name="page_title">Track Location</%block></title>
     <%block name="page_includes"/>
   </head>
