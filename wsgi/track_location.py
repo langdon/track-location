@@ -179,6 +179,8 @@ def track_location_get():
     last_lat = 0.0
     last_long = 0.0
     for row in table_rows_all:
+        row[1]= float(row[1])
+        row[2]= float(row[2])
         if ((last_lat != round(row[1], 2)) or (last_long != round(row[2], 2))):
             table_rows_useful.append(row)
         last_lat = round(row[1], 2)
