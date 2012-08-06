@@ -163,10 +163,10 @@ def track_location_get():
     cursor = con.cursor() #cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
-    out = pp(cursor)
+    table_rows = pp(cursor)
     cursor.close()
-    out = out.replace('\n', '<br />\n')
-    return out
+    table_rows = table_rows.replace('\n', '<br />\n')
+    return template('track_location', data_grid=table_rows)
 
 @get('/add-location')
 @get('/add-location/')
