@@ -164,6 +164,7 @@ def track_location_get():
     cursor = con.cursor() #cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM locations')
     
+    table_rows = cursor.fetchall()
     table_rows_string = pp(cursor, table_rows)
     cursor.close()
     return template('track_location', dict(data_grid_string=table_rows_string, data_grid=table_rows ))
