@@ -25,7 +25,7 @@
                     % endif
                 % lastLat = round(row[1], 2), lastLong = round(row[2])
                % endfor
-        });
+        }); 
 </script>
 </div>
 <p />
