@@ -14,7 +14,7 @@
     <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js" type="text/javascript" ></script>
-    <script src="${ get_path_to_scripts() }/ui/jquery.ui.map.full.min.js" type="text/javascript"></script>
+    <script src="${ get_path_to_scripts() }/ui/jquery.ui.map.js" type="text/javascript"></script>
     <title><%block name="page_title">Track Location</%block></title>
     <%block name="page_includes"/>
   </head>
