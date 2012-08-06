@@ -13,15 +13,17 @@
 <%block name="content">
 <div id="track-locations-map">
 <div id="map_canvas" style="width:250px;height:250px"></div>
+% lastLat = 0, lastLong = 0
 <script type="text/javascript">
         $(function() {
                 var yourStartLatLng = new google.maps.LatLng(42.333796,-71.051582);
                 $('#map_canvas').gmap({'center': yourStartLatLng});
                 % for row in data_grid:
-                    % if loop.index < 10:
+                    % if ((lastlat != round(row[1], 2)) or (lastlong != round(row[2], 2)) and loop.index < 20:
                 $('#map_canvas').gmap('addMarker', { /*id:'m_${loop.index}',*/ 'position': '${row[1]},${row[2]}', 'bounds': true } ).click(function() {
                     $('#map_canvas').gmap('openInfoWindow', { 'content': 'time: ${row[3].strftime("%d/%m/%y %H:%M")}' }, this)});
                     % endif
+                % lastLat = round(row[1], 2), lastLong = round(row[2])
                % endfor
         });
 </script>
