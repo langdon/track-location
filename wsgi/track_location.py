@@ -176,13 +176,13 @@ def track_location_get():
     
     table_rows_all = cursor.fetchall()
     table_rows_useful = []
-    lastLat = 0
-    lastLong = 0
+    last_lat = 0
+    last_long = 0
     for row in table_rows_all:
-        if ((lastlat != round(row[1], 2)) or (lastlong != round(row[2], 2))):
+        if ((last_lat != round(row[1], 2)) or (last_long != round(row[2], 2))):
             table_rows_useful.append(row)
-        lastLat = round(row[1], 2)
-        lastLong = round(row[2], 2)
+        last_lat = round(row[1], 2)
+        last_long = round(row[2], 2)
 
     cursor.close()
     return template('track_location', dict(data_grid=table_rows_useful ))
