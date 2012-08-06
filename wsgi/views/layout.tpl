@@ -1,4 +1,9 @@
-{{ import os }}
+<%! 
+    import os 
+    
+    def get_path_to_scripts():
+        return os.path.join(os.environ['OPENSHIFT_GEAR_DIR'], 'runtime/repo/wsgi/static/scripts')
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -10,7 +15,7 @@
     <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js" type="text/javascript" ></script>
-    <script src="{{ os.path.join(os.environ['OPENSHIFT_GEAR_DIR'], 'runtime/repo/wsgi/static/scripts') }}/ui/jquery.ui.map.full.min.js" type="text/javascript"></script>
+    <script src="${ get_path_to_scripts() }/ui/jquery.ui.map.full.min.js" type="text/javascript"></script>
     {{!get('page_includes', '')}}
   	<title>{{get('title', 'Track Location')}}</title>
   </head>

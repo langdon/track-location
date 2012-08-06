@@ -2,7 +2,8 @@ import sys, os
 import ConfigParser
 import psycopg2
 from pprint import pprint
-from bottle import get, post, route, run, request, HTTPError, debug, template, static_file, default_app
+from bottle import get, post, route, run, request, HTTPError, debug, static_file, default_app
+from bottle import mako_view as view, mako_template as template
 import json
 import datetime
 
@@ -166,7 +167,7 @@ def track_location_get():
     table_rows = pp(cursor)
     cursor.close()
     #table_rows = table_rows.replace('\n', '<br />\n')
-    return template('track_location', data_grid=table_rows)
+    return mako_template('track_location', data_grid=table_rows)
 
 @get('/add-location')
 @get('/add-location/')
