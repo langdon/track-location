@@ -172,7 +172,7 @@ def track_location_get():
     #print out the locations found
     con = get_connection()
     cursor = con.cursor() #cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute('SELECT * FROM locations')
+    cursor.execute('SELECT * FROM locations ORDER BY time ASC')
     
     table_rows_all = cursor.fetchall()
     table_rows_useful = []
