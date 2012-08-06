@@ -19,7 +19,7 @@
                 $('#map_canvas').gmap({'center': yourStartLatLng});
                 % for row in data_grid:
                 $('#map_canvas').gmap('addMarker', { /*id:'m_${loop.index}',*/ 'position': '${row[1}},${row[2}}', 'bounds': true } ).click(function() {
-                    $('#map_canvas').gmap('openInfoWindow', { 'content': 'time: ${row[3].strftime("%d/%m/%y %H:%M")}' }, this);
+                    $('#map_canvas').gmap('openInfoWindow', { 'content': 'time: ${row[3].strftime("%d/%m/%y %H:%M")}' }, this)});
                 % endfor
         });
 </script>
