@@ -11,3 +11,4 @@
     <p> {{ data_grid }} </p>
 </div>
 
+%rebase layout title='Main'
