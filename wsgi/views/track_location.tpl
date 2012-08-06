@@ -1,4 +1,4 @@
-<%inherit file="base.html"/>
+<%inherit file="layout.tpl"/>
 <%block name="page_includes">
 <style>
 #feedback { font-size: 1.4em; }
