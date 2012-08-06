@@ -1,3 +1,5 @@
+<%inherit file="base.html"/>
+<%block name="page_includes">
 <style>
 #feedback { font-size: 1.4em; }
 #selectable .ui-selecting { background: #FECA40; }
@@ -7,8 +9,9 @@
 </style>
 <script>
 </script>
+</%block>
+<%block name="content">
 <div id="track-locations-grid">
-    <p> {{ data_grid }} </p>
+    <p> ${ data_grid } </p>
 </div>
-
-%rebase layout title='Main'
+</%block>
