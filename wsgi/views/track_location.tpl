@@ -26,7 +26,7 @@
         }); 
 </script>
 </div>
-<p />
+<p /> 
 <div id="track-locations-grid">
     <table>
         <tr><th>id</th><th>lat</th><th>long</th><th>time</th></tr>
