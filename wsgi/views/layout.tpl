@@ -9,7 +9,7 @@
     <script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js" type="text/javascript" ></script>
-    <script src="{{os.path.join(os.environ['OPENSHIFT_GEAR_DIR'], 'runtime/repo/wsgi/static/scripts'}}/ui/jquery.ui.map.full.min.js" type="text/javascript"></script>
+    <script src="{{ os.path.join(os.environ['OPENSHIFT_GEAR_DIR'], 'runtime/repo/wsgi/static/scripts') }}/ui/jquery.ui.map.full.min.js" type="text/javascript"></script>
     {{!get('page_includes', '')}}
   	<title>{{get('title', 'Track Location')}}</title>
   </head>
